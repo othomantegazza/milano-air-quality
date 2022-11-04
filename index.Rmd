@@ -1,0 +1,95 @@
+---
+title: "Milano Air Quality"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include=FALSE}
+# https://www.eea.europa.eu/themes/air/air-quality-concentrations/AirQlimitvalues.png
+# https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
+# https://dati.comune.milano.it/dataset/ds573-valori-rilevati-per-i-principali-inquinanti-dell-aria
+```
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(here)
+library(tsibble)
+library(lubridate)
+library(ggiraph)
+theme_set(theme_minimal())
+```
+
+
+```{r, include=FALSE}  
+air_q_url <-
+  'data/e1cc82ec-97bb-463c-a3fb-b61be60f0956.csv'
+
+air_q <- 
+  air_q_url %>% 
+  readr::read_csv() %>% 
+  janitor::clean_names() %>% 
+  rename(date = data)
+
+air_q_o3 <- 
+  air_q %>% 
+  filter(inquinante == 'O3') %>% 
+  mutate(date = date %>% as_date)
+
+```
+
+```{r}
+ozone_limits <- 120
+limits_colour <- 'red'
+
+p1 <- 
+  air_q_o3 %>% 
+  ggplot(
+    aes(
+      x = date,
+      y = valore,
+      tooltip = glue::glue('Data: {date}\nValore: {valore}')
+    )
+  ) +
+  geom_hline(yintercept = 0) +
+  # geom_vline(xintercept = 0) +
+  geom_segment(data = . %>% 
+                 filter(valore > ozone_limits),
+               mapping = aes(xend = date,
+                             yend = ozone_limits),
+               colour = limits_colour,
+               size = .2) +
+  geom_point_interactive(size = 1) +
+  geom_hline(yintercept = ozone_limits,
+             colour = limits_colour) 
+
+girafe(
+  ggobj = p1,
+  height_svg = 3,
+  pointsize = 10,
+  options = list(
+    opts_sizing(rescale = TRUE, width = 1)
+  ))
+```
+
+```{r, include=FALSE, eval=FALSE}
+
+
+x <- girafe(
+  ggobj = gg_point_1, width_svg = 6, height_svg = 6,
+  options = list(
+    opts_sizing(rescale = FALSE),
+    opts_tooltip(
+      opacity = .8,
+      css = "background-color:gray;color:white;padding:2px;border-radius:2px;"
+    ),
+    opts_hover(css = "fill:#1279BF;stroke:#1279BF;cursor:pointer;")
+  )
+)
+x
+```
+
+
