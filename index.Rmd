@@ -20,7 +20,18 @@ library(here)
 library(tsibble)
 library(lubridate)
 library(ggiraph)
+
 theme_set(theme_minimal())
+
+thin_line <- .2
+medium_line <- .5
+limits_colour <- 'red'
+def_colour <- 'black'
+loess_span <- .2 # span shoud increase during the year
+```
+
+```{r, include=FALSE}
+ozone_limits <- 120
 ```
 
 
@@ -42,8 +53,6 @@ air_q_o3 <-
 ```
 
 ```{r}
-ozone_limits <- 120
-limits_colour <- 'red'
 
 p1 <- 
   air_q_o3 %>% 
@@ -51,7 +60,6 @@ p1 <-
     aes(
       x = date,
       y = valore,
-      tooltip = glue::glue('Data: {date}\nValore: {valore}')
     )
   ) +
   geom_hline(yintercept = 0) +
@@ -61,10 +69,20 @@ p1 <-
                mapping = aes(xend = date,
                              yend = ozone_limits),
                colour = limits_colour,
-               size = .2) +
-  geom_point_interactive(size = 1) +
+               size = thin_line) +
   geom_hline(yintercept = ozone_limits,
-             colour = limits_colour) 
+             colour = limits_colour,
+             size = thin_line, 
+             lty = '1212')  +
+  geom_smooth(size = medium_line,
+              colour = '#00000000',
+              method = 'loess',
+              span = loess_span) +
+  geom_point_interactive(
+    aes(tooltip = glue::glue('Data: {date}\nValore: {valore}')),
+    size = 1,
+    alpha = .8
+    )
 
 girafe(
   ggobj = p1,
