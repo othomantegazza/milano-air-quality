@@ -64,12 +64,19 @@ p1 <-
   ) +
   geom_hline(yintercept = 0) +
   # geom_vline(xintercept = 0) +
-  geom_segment(data = . %>% 
-                 filter(valore > ozone_limits),
-               mapping = aes(xend = date,
-                             yend = ozone_limits),
-               colour = limits_colour,
-               size = thin_line) +
+  # geom_segment(data = . %>% 
+  #                filter(valore > ozone_limits),
+  #              mapping = aes(xend = date,
+  #                            yend = ozone_limits),
+  #              colour = limits_colour,
+  #              size = thin_line) +
+  geom_rect(data = . %>% 
+              filter(valore > ozone_limits),
+            aes(xmin = date,
+                xmax = date + days(1),
+                ymin = 0,
+                ymax = Inf),
+            fill = alpha(limits_colour,alpha = .2)) +
   geom_hline(yintercept = ozone_limits,
              colour = limits_colour,
              size = thin_line, 
