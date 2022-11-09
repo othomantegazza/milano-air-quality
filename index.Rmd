@@ -20,8 +20,26 @@ library(here)
 library(tsibble)
 library(lubridate)
 library(ggiraph)
+```
 
-theme_set(theme_minimal())
+```{r, include=FALSE}
+theme_set(
+  theme_minimal() +
+    theme(
+      axis.text.x = element_text(
+        angle = 90,
+        vjust = 0,
+        hjust = 1
+      ),
+      axis.text.y = element_text(
+        vjust = 0,
+        hjust = 1 
+      ),
+      axis.title.y = element_text(
+        hjust = 1
+      )
+    ) 
+)
 
 thin_line <- .2
 medium_line <- .5
@@ -29,12 +47,18 @@ limits_colour <- 'red'
 def_colour <- 'blue'
 mid_colour <- 'grey50'
 loess_span <- .2 # span should increase during the year
-```
-
-```{r, include=FALSE}
 ozone_limits <- 120
 ```
 
+```{r}
+breaks_on_fortnight <- function(x) {
+  n_days <- 14
+  d <- seq.Date(from = min(x),
+                to = max(x) + days(n_days - 1),
+                by = n_days)
+  return(d - days(n_days - 1))
+}
+```
 
 ```{r, include=FALSE}  
 air_q_url <-
@@ -44,17 +68,16 @@ air_q <-
   air_q_url %>% 
   readr::read_csv() %>% 
   janitor::clean_names() %>% 
-  rename(date = data)
+  rename(date = data) %>% 
+  mutate(date = date %>% as_date())
 
 air_q_o3 <- 
   air_q %>% 
-  filter(inquinante == 'O3') %>% 
-  mutate(date = date %>% as_date)
+  filter(inquinante == 'O3') 
 
 ```
 
 ```{r}
-
 p1 <- 
   air_q_o3 %>% 
   ggplot(
@@ -77,13 +100,21 @@ p1 <-
         colour = after_stat(y)),
     size = 1,
     alpha = .8) +
-  guides(colour = 'none') +
   scale_colour_gradient2_interactive(
     low = def_colour,
     mid = mid_colour,
     high = limits_colour,
     midpoint = ozone_limits
-  )
+  ) +
+  scale_x_date(
+    breaks = breaks_on_fortnight,
+    minor_breaks = NULL,
+    expand = expansion(mult = c(.01, .1)),
+    date_labels = '%b %d'
+  ) +
+  guides(colour = 'none') +
+  labs(x = '',
+       y = 'Concentration [µg/m3]')
 
 girafe(
   ggobj = p1,
