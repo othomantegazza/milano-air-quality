@@ -26,8 +26,9 @@ theme_set(theme_minimal())
 thin_line <- .2
 medium_line <- .5
 limits_colour <- 'red'
-def_colour <- 'black'
-loess_span <- .2 # span shoud increase during the year
+def_colour <- 'blue'
+mid_colour <- 'grey50'
+loess_span <- .2 # span should increase during the year
 ```
 
 ```{r, include=FALSE}
@@ -70,15 +71,15 @@ p1 <-
   #                            yend = ozone_limits),
   #              colour = limits_colour,
   #              size = thin_line) +
-  geom_rect(data = . %>% 
-              filter(valore > ozone_limits),
-            aes(xmin = date,
-                xmax = date + days(1),
-                ymin = 0,
-                ymax = Inf),
-            fill = alpha(limits_colour,alpha = .2)) +
+  # geom_rect(data = . %>% 
+  #             filter(valore > ozone_limits),
+  #           aes(xmin = date,
+  #               xmax = date + days(1),
+  #               ymin = 0,
+  #               ymax = Inf),
+  #           fill = alpha(limits_colour,alpha = .2)) +
   geom_hline(yintercept = ozone_limits,
-             colour = limits_colour,
+             colour = mid_colour,
              size = thin_line, 
              lty = '1212')  +
   geom_smooth(size = medium_line,
@@ -86,10 +87,17 @@ p1 <-
               method = 'loess',
               span = loess_span) +
   geom_point_interactive(
-    aes(tooltip = glue::glue('Data: {date}\nValore: {valore}')),
+    aes(tooltip = glue::glue('Data: {date}\nValore: {valore}'),
+        colour = after_stat(y)),
     size = 1,
-    alpha = .8
-    )
+    alpha = .8) +
+  guides(colour = 'none') +
+  scale_colour_gradient2_interactive(
+    low = def_colour,
+    mid = mid_colour,
+    high = limits_colour,
+    midpoint = ozone_limits
+  )
 
 girafe(
   ggobj = p1,
