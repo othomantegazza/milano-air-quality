@@ -23,24 +23,7 @@ library(ggiraph)
 ```
 
 ```{r, include=FALSE}
-theme_set(
-  theme_minimal() +
-    theme(
-      axis.text.x = element_text(
-        angle = 90,
-        vjust = 0,
-        hjust = 1
-      ),
-      axis.text.y = element_text(
-        vjust = 0,
-        hjust = 1 
-      ),
-      axis.title.y = element_text(
-        hjust = 1
-      )
-    ) 
-)
-
+label_size <- 9
 thin_line <- .2
 medium_line <- .5
 limits_colour <- 'red'
@@ -48,6 +31,28 @@ def_colour <- 'blue'
 mid_colour <- 'grey50'
 loess_span <- .2 # span should increase during the year
 ozone_limits <- 120
+
+theme_set(
+  theme_minimal() +
+    theme(
+      axis.text.x = element_text(
+        angle = 90,
+        vjust = 0,
+        hjust = 1,
+        size = label_size
+      ),
+      axis.text.y = element_text(
+        vjust = 0,
+        hjust = 1,
+        size = label_size
+      ),
+      axis.title.y = element_text(
+        hjust = 1,
+        vjust = 2,
+        size = label_size
+      )
+    ) 
+)
 ```
 
 ```{r}
