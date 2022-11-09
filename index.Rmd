@@ -63,6 +63,59 @@ breaks_on_fortnight <- function(x) {
                 by = n_days)
   return(d - days(n_days - 1))
 }
+
+plot_pollutant <- function(.data,
+                           pollutant,
+                           pollutant_lim) {
+  
+  p <- 
+    .data %>%  
+    filter(inquinante == pollutant) %>%  
+    ggplot(
+      aes(
+        x = date,
+        y = valore,
+      )
+    ) +
+    geom_hline(yintercept = 0) +
+    geom_hline(yintercept = pollutant_lim,
+               colour = mid_colour,
+               size = thin_line, 
+               lty = '1212')  +
+    geom_smooth(size = medium_line,
+                colour = '#00000000',
+                method = 'loess',
+                span = loess_span) +
+    geom_point_interactive(
+      aes(tooltip = glue::glue('Data: {date}\nValore: {valore}'),
+          colour = after_stat(y)),
+      size = 1,
+      alpha = .8) +
+    scale_colour_gradient2_interactive(
+      low = def_colour,
+      mid = mid_colour,
+      high = limits_colour,
+      midpoint = pollutant_lim
+    ) +
+    scale_x_date(
+      breaks = breaks_on_fortnight,
+      minor_breaks = NULL,
+      expand = expansion(mult = c(.01, .1)),
+      date_labels = '%b %d'
+    ) +
+    guides(colour = 'none') +
+    labs(x = '',
+         y = 'Concentration [µg/m3]')
+  
+  girafe(
+    ggobj = p1,
+    height_svg = 3,
+    pointsize = 10,
+    options = list(
+      opts_sizing(rescale = TRUE, width = 1)
+    ))
+  
+}
 ```
 
 ```{r, include=FALSE}  
@@ -75,59 +128,12 @@ air_q <-
   janitor::clean_names() %>% 
   rename(date = data) %>% 
   mutate(date = date %>% as_date())
-
-air_q_o3 <- 
-  air_q %>% 
-  filter(inquinante == 'O3') 
-
 ```
 
 ```{r}
-p1 <- 
-  air_q_o3 %>% 
-  ggplot(
-    aes(
-      x = date,
-      y = valore,
-    )
-  ) +
-  geom_hline(yintercept = 0) +
-  geom_hline(yintercept = ozone_limits,
-             colour = mid_colour,
-             size = thin_line, 
-             lty = '1212')  +
-  geom_smooth(size = medium_line,
-              colour = '#00000000',
-              method = 'loess',
-              span = loess_span) +
-  geom_point_interactive(
-    aes(tooltip = glue::glue('Data: {date}\nValore: {valore}'),
-        colour = after_stat(y)),
-    size = 1,
-    alpha = .8) +
-  scale_colour_gradient2_interactive(
-    low = def_colour,
-    mid = mid_colour,
-    high = limits_colour,
-    midpoint = ozone_limits
-  ) +
-  scale_x_date(
-    breaks = breaks_on_fortnight,
-    minor_breaks = NULL,
-    expand = expansion(mult = c(.01, .1)),
-    date_labels = '%b %d'
-  ) +
-  guides(colour = 'none') +
-  labs(x = '',
-       y = 'Concentration [µg/m3]')
-
-girafe(
-  ggobj = p1,
-  height_svg = 3,
-  pointsize = 10,
-  options = list(
-    opts_sizing(rescale = TRUE, width = 1)
-  ))
+plot_pollutant(.data = air_q,
+               pollutant = 'O3',
+               pollutant_lim = ozone_limits)
 ```
 
 
