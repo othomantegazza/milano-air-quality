@@ -1,5 +1,5 @@
 ---
-title: "Milano Air Quality"
+title: "Milano Air Quality Dashboard"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -64,20 +64,6 @@ p1 <-
     )
   ) +
   geom_hline(yintercept = 0) +
-  # geom_vline(xintercept = 0) +
-  # geom_segment(data = . %>% 
-  #                filter(valore > ozone_limits),
-  #              mapping = aes(xend = date,
-  #                            yend = ozone_limits),
-  #              colour = limits_colour,
-  #              size = thin_line) +
-  # geom_rect(data = . %>% 
-  #             filter(valore > ozone_limits),
-  #           aes(xmin = date,
-  #               xmax = date + days(1),
-  #               ymin = 0,
-  #               ymax = Inf),
-  #           fill = alpha(limits_colour,alpha = .2)) +
   geom_hline(yintercept = ozone_limits,
              colour = mid_colour,
              size = thin_line, 
@@ -106,23 +92,6 @@ girafe(
   options = list(
     opts_sizing(rescale = TRUE, width = 1)
   ))
-```
-
-```{r, include=FALSE, eval=FALSE}
-
-
-x <- girafe(
-  ggobj = gg_point_1, width_svg = 6, height_svg = 6,
-  options = list(
-    opts_sizing(rescale = FALSE),
-    opts_tooltip(
-      opacity = .8,
-      css = "background-color:gray;color:white;padding:2px;border-radius:2px;"
-    ),
-    opts_hover(css = "fill:#1279BF;stroke:#1279BF;cursor:pointer;")
-  )
-)
-x
 ```
 
 
