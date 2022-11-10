@@ -7,14 +7,14 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r, include=FALSE}
+```{r notes, include=FALSE}
 # https://www.eea.europa.eu/themes/air/air-quality-concentrations/AirQlimitvalues.png
-# https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
+  # https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
 # https://dati.comune.milano.it/dataset/ds573-valori-rilevati-per-i-principali-inquinanti-dell-aria
 ```
 
 
-```{r, include=FALSE}
+```{r packages, include=FALSE}
 library(tidyverse)
 library(here)
 library(tsibble)
@@ -22,7 +22,7 @@ library(lubridate)
 library(ggiraph)
 ```
 
-```{r, include=FALSE}
+```{r params, include=FALSE}
 label_size <- 9
 thin_line <- .2
 medium_line <- .5
@@ -53,9 +53,21 @@ theme_set(
       )
     ) 
 )
+
+# from https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
+pollutants <- 
+  tribble(~inquinante, ~pollutant_name, ~eu_limits,
+          'C6H6', 'Polycyclic Aromatic Hydrocarbons', 1e-3,
+          'CO_8h', 'Carbon monoxide', 1e4,
+          'NO2', 'Nitrogen dioxide', 40,
+          'O3', 'Ozone', 120,
+          'PM10', 'Particulate matter', 40,
+          'PM25', 'Fine particles', 20,
+          'SO2', 'Sulphur dioxide', 125,
+          )
 ```
 
-```{r}
+```{r functions}
 breaks_on_fortnight <- function(x) {
   n_days <- 14
   d <- seq.Date(from = min(x),
@@ -64,13 +76,13 @@ breaks_on_fortnight <- function(x) {
   return(d - days(n_days - 1))
 }
 
-plot_pollutant <- function(.data,
-                           pollutant,
-                           pollutant_lim) {
+plot_pollutant <- function(data,
+                           eu_limits,
+                           pollutant_name,
+                           ...) {
   
   p <- 
-    .data %>%  
-    filter(inquinante == pollutant) %>%  
+    data %>%  
     ggplot(
       aes(
         x = date,
@@ -78,7 +90,7 @@ plot_pollutant <- function(.data,
       )
     ) +
     geom_hline(yintercept = 0) +
-    geom_hline(yintercept = pollutant_lim,
+    geom_hline(yintercept = eu_limits,
                colour = mid_colour,
                size = thin_line, 
                lty = '1212')  +
@@ -95,7 +107,7 @@ plot_pollutant <- function(.data,
       low = def_colour,
       mid = mid_colour,
       high = limits_colour,
-      midpoint = pollutant_lim
+      midpoint = eu_limits
     ) +
     scale_x_date(
       breaks = breaks_on_fortnight,
@@ -105,20 +117,23 @@ plot_pollutant <- function(.data,
     ) +
     guides(colour = 'none') +
     labs(x = '',
-         y = 'Concentration [µg/m3]')
+         y = 'Concentration [µg/m3]',
+         title = pollutant_name)
   
-  girafe(
-    ggobj = p1,
+  g <- 
+    girafe(
+    ggobj = p,
     height_svg = 3,
     pointsize = 10,
     options = list(
       opts_sizing(rescale = TRUE, width = 1)
     ))
   
+  return(g)
 }
 ```
 
-```{r, include=FALSE}  
+```{r data, include=FALSE}  
 air_q_url <-
   'data/e1cc82ec-97bb-463c-a3fb-b61be60f0956.csv'
 
@@ -127,13 +142,66 @@ air_q <-
   readr::read_csv() %>% 
   janitor::clean_names() %>% 
   rename(date = data) %>% 
-  mutate(date = date %>% as_date())
+  mutate(date = date %>% as_date()) %>% 
+  # guessing real order of magnitude of measuremnts
+  mutate(valore = valore %>% {
+    case_when(inquinante == 'C6H6' ~ . * 1e-3,
+              inquinante == 'CO_8h' ~ . * 1e3,
+              TRUE ~ .)
+  }) %>% 
+  group_by(inquinante) %>% 
+  nest() %>% 
+  left_join(pollutants)
+
 ```
+
+
+```{r viz, include=FALSE}
+air_q$plots <- air_q %>% pmap(plot_pollutant)
+```
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+### Ozone
 
 ```{r}
-plot_pollutant(.data = air_q,
-               pollutant = 'O3',
-               pollutant_lim = ozone_limits)
+air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
 ```
 
+### Nitrogen dioxide
+
+```{r}
+air_q %>% filter(pollutant_name == 'Nitrogen dioxide') %>% pull(plots) %>% .[[1]]
+```
+
+### Polycyclic Aromatics
+
+```{r}
+air_q %>% filter(pollutant_name == 'Polycyclic Aromatic Hydrocarbons') %>% pull(plots) %>% .[[1]]
+```
+
+### Particulate matter PM10
+
+```{r}
+air_q %>% filter(pollutant_name == 'Particulate matter') %>% pull(plots) %>% .[[1]]
+```
+
+### Fine particles PM2.5
+
+```{r}
+air_q %>% filter(pollutant_name == 'Fine particles') %>% pull(plots) %>% .[[1]]
+```
+
+### Sulphur dioxide
+
+```{r}
+air_q %>% filter(pollutant_name == 'Sulphur dioxide') %>% pull(plots) %>% .[[1]]
+```
+
+### Carbon monoxide
+
+```{r}
+air_q %>% filter(pollutant_name == 'Carbon monoxide') %>% pull(plots) %>% .[[1]]
+```
 
