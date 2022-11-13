@@ -70,6 +70,23 @@ pollutants <-
 ```
 
 ```{r functions}
+scale_pollutant <- 
+  function(data, eu_limits, ...) {
+    
+    data <- 
+      data %>% 
+      group_by(date) %>% 
+      summarise(
+        across(
+          .cols = valore,
+          .fns = ~median(., na.rm = T)
+        )
+      ) %>% 
+      mutate(scaled = valore/eu_limits)
+    
+    return(data)
+  }
+
 breaks_on_fortnight <- function(x) {
   n_days <- 14
   d <- seq.Date(from = min(x),
@@ -161,6 +178,45 @@ air_q <-
 ```{r viz, include=FALSE}
 air_q$plots <- air_q %>% pmap(plot_pollutant)
 ```
+
+
+Row
+-------------------------------------
+
+```{r}
+air_q$data_scaled <- 
+  air_q %>% 
+  pmap(scale_pollutant)
+
+air_q_scaled <-
+  air_q %>% 
+  select(inquinante, pollutant_name, data_scaled) %>% 
+  unnest(data_scaled)
+
+p_heat <- 
+  air_q_scaled %>% 
+  ggplot() +
+  aes(
+    x = date,
+    y = inquinante, 
+    fill = scaled,
+  ) +
+  geom_tile_interactive(
+    aes(tooltip = glue::glue('Data: {date}\n
+                              Pollutant: {inquinante}\n
+                             Valore: {scaled}'))
+  )
+
+
+girafe(
+  ggobj = p_heat,
+  height_svg = height_svg,
+  pointsize = pointsize,
+  options = list(
+    opts_sizing(rescale = TRUE, width = 1)
+  ))
+```
+
 
 Row {.tabset .tabset-fade}
 -------------------------------------
