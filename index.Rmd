@@ -31,6 +31,8 @@ def_colour <- 'blue'
 mid_colour <- 'grey50'
 loess_span <- .2 # span should increase during the year
 ozone_limits <- 120
+height_svg <- 3
+pointsize <- 10
 
 theme_set(
   theme_minimal() +
@@ -123,8 +125,8 @@ plot_pollutant <- function(data,
   g <- 
     girafe(
     ggobj = p,
-    height_svg = 3,
-    pointsize = 10,
+    height_svg = height_svg,
+    pointsize = pointsize,
     options = list(
       opts_sizing(rescale = TRUE, width = 1)
     ))
@@ -165,43 +167,43 @@ Row {.tabset .tabset-fade}
 
 ### Ozone
 
-```{r}
+```{r ozone}
 air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Nitrogen dioxide
 
-```{r}
+```{r no}
 air_q %>% filter(pollutant_name == 'Nitrogen dioxide') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Polycyclic Aromatics
 
-```{r}
+```{r aro}
 air_q %>% filter(pollutant_name == 'Polycyclic Aromatic Hydrocarbons') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Particulate matter PM10
 
-```{r}
+```{r pm10}
 air_q %>% filter(pollutant_name == 'Particulate matter') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Fine particles PM2.5
 
-```{r}
+```{r pm25}
 air_q %>% filter(pollutant_name == 'Fine particles') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Sulphur dioxide
 
-```{r}
+```{r so}
 air_q %>% filter(pollutant_name == 'Sulphur dioxide') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Carbon monoxide
 
-```{r}
+```{r co}
 air_q %>% filter(pollutant_name == 'Carbon monoxide') %>% pull(plots) %>% .[[1]]
 ```
 
