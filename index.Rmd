@@ -3,6 +3,7 @@ title: "Milano Air Quality Dashboard"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
+    # vertical_layout: scroll
 editor_options: 
   chunk_output_type: console
 ---
@@ -185,10 +186,10 @@ air_q$plots <- air_q %>% pmap(plot_pollutant)
 ```
 
 
-Row {}
+Row
 -------------------------------------
 
-### All Pollutants
+### All Pollutants  {data-height=300}
 
 ```{r heatmap}
 air_q$data_scaled <- 
@@ -212,16 +213,18 @@ p_heat <-
   geom_tile_interactive(
     aes(tooltip = glue::glue('Data: {date}
                               Pollutant: {inquinante}
-                             Valore: {scaled}')),
+                             Valore: {scaled}')), 
     size = 0
+    # hover_css = 'stroke-colour:0c0c02;'
   ) +
-  scale_fill_gradient2_interactive(
+  scale_fill_gradient2(
       low = def_colour,
       mid = mid_colour,
       high = limits_colour,
-      midpoint = 1
+      midpoint = 1,
+      limits = c(0, NA)
     ) +
-  scale_colour_gradient2_interactive(
+  scale_colour_gradient2(
       low = def_colour,
       mid = mid_colour,
       high = limits_colour,
@@ -233,9 +236,11 @@ p_heat <-
     expand = expansion(mult = c(.01, .1)),
     date_labels = '%b %d'
   ) +
-  guides(colour = 'none') +
+  guides(fill = 'none',
+         colour = 'none') +
   labs(x = '',
-       y = 'Concentration [µg/m3]')
+       y = 'Concentration [µg/m3]') +
+  theme(panel.grid = element_blank())
 
 
 girafe(
