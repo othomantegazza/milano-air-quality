@@ -72,8 +72,8 @@ pollutants <-
 ```{r functions}
 scale_pollutant <- 
   function(data, eu_limits, ...) {
-    
-    data <- 
+
+    data <-
       data %>% 
       group_by(date) %>% 
       summarise(
@@ -82,7 +82,12 @@ scale_pollutant <-
           .fns = ~median(., na.rm = T)
         )
       ) %>% 
-      mutate(scaled = valore/eu_limits)
+      mutate(scaled = valore/eu_limits) %>% 
+      ungroup() %>% 
+      as_tsibble(index = 'date') %>% 
+      fill_gaps() %>% 
+      fill(valore, scaled, .direction = 'down') %>% 
+      as_tibble()
     
     return(data)
   }
