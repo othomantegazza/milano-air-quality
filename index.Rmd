@@ -11,7 +11,7 @@ editor_options:
 ```{r notes, include=FALSE}
 # https://www.eea.europa.eu/themes/air/air-quality-concentrations/AirQlimitvalues.png
   # https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
-# https://dati.comune.milano.it/dataset/ds573-valori-rilevati-per-i-principali-inquinanti-dell-aria
+# https://dati.comune.milano.it/dataset/ds411-rilevazione-qualita-aria-2022
 ```
 
 
@@ -185,7 +185,8 @@ air_q <-
 air_q$plots <- air_q %>% pmap(plot_pollutant)
 ```
 
-
+Column {data-width=700}
+------------------------------------
 Row
 -------------------------------------
 
@@ -298,3 +299,5 @@ air_q %>% filter(pollutant_name == 'Sulphur dioxide') %>% pull(plots) %>% .[[1]]
 air_q %>% filter(pollutant_name == 'Carbon monoxide') %>% pull(plots) %>% .[[1]]
 ```
 
+Column {data-width=300}
+-------------------------------------------
