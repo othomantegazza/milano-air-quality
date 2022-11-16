@@ -204,9 +204,9 @@ air_q_scaled <-
   unnest(data_scaled)
 ```
 
-:::: {.grid}
+::::: {.grid}
 
-::: {.g-col-6}
+::: {.g-col-12}
 
 ### All Pollutants
 
@@ -266,7 +266,9 @@ girafe(
 
 :::
 
-::: {.g-col-6}
+:::: {.g-col-12}
+
+::: {.panel-tabset}
 
 ### Ozone
 
@@ -275,20 +277,12 @@ girafe(
 air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
 ```
 
-:::
-
-::: {.g-col-6}
-
 ### Nitrogen dioxide
 
 ```{r no}
 #| panel: fill
 air_q %>% filter(pollutant_name == 'Nitrogen dioxide') %>% pull(plots) %>% .[[1]]
 ```
-
-:::
-
-::: {.g-col-6}
 
 ### Polycyclic Aromatics
 
@@ -297,20 +291,12 @@ air_q %>% filter(pollutant_name == 'Nitrogen dioxide') %>% pull(plots) %>% .[[1]
 air_q %>% filter(pollutant_name == 'Polycyclic Aromatic Hydrocarbons') %>% pull(plots) %>% .[[1]]
 ```
 
-:::
-
-::: {.g-col-6}
-
 ### Particulate matter PM10
 
 ```{r pm10}
 #| panel: fill
 air_q %>% filter(pollutant_name == 'Particulate matter') %>% pull(plots) %>% .[[1]]
 ```
-
-:::
-
-::: {.g-col-6}
 
 ### Fine particles PM2.5
 
@@ -319,20 +305,12 @@ air_q %>% filter(pollutant_name == 'Particulate matter') %>% pull(plots) %>% .[[
 air_q %>% filter(pollutant_name == 'Fine particles') %>% pull(plots) %>% .[[1]]
 ```
 
-:::
-
-::: {.g-col-6}
-
 ### Sulphur dioxide
 
 ```{r so}
 #| panel: fill
 air_q %>% filter(pollutant_name == 'Sulphur dioxide') %>% pull(plots) %>% .[[1]]
 ```
-
-:::
-
-::: {.g-col-6}
 
 ### Carbon monoxide
 
@@ -344,3 +322,5 @@ air_q %>% filter(pollutant_name == 'Carbon monoxide') %>% pull(plots) %>% .[[1]]
 :::
 
 ::::
+
+:::::
