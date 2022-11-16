@@ -32,6 +32,14 @@ library(lubridate)
 library(ggiraph)
 ```
 
+```{r functions}
+#| include: false
+source(
+  here('R/utils.R')
+)
+```
+
+
 ```{r params}
 #| include: false
 
@@ -81,96 +89,6 @@ pollutants <-
           )
 ```
 
-```{r functions}
-#| include: false
-
-scale_pollutant <- 
-  function(data, eu_limits, ...) {
-
-    data <-
-      data %>% 
-      group_by(date) %>% 
-      summarise(
-        across(
-          .cols = valore,
-          .fns = ~median(., na.rm = T)
-        )
-      ) %>% 
-      mutate(scaled = valore/eu_limits) %>% 
-      ungroup() %>% 
-      as_tsibble(index = 'date') %>% 
-      fill_gaps() %>% 
-      fill(valore, scaled, .direction = 'down') %>% 
-      as_tibble()
-    
-    return(data)
-  }
-
-breaks_on_fortnight <- function(x) {
-  n_days <- 14
-  d <- seq.Date(from = min(x),
-                to = max(x) + days(n_days - 1),
-                by = n_days)
-  return(d - days(n_days - 1))
-}
-
-plot_pollutant <- function(data,
-                           eu_limits,
-                           pollutant_name,
-                           ...) {
-  
-  p <- 
-    data %>%  
-    ggplot(
-      aes(
-        x = date,
-        y = valore,
-      )
-    ) +
-    geom_hline(yintercept = 0) +
-    geom_hline(yintercept = eu_limits,
-               colour = mid_colour,
-               size = thin_line, 
-               lty = '1212')  +
-    geom_smooth(size = medium_line,
-                colour = '#00000000',
-                method = 'loess',
-                span = loess_span) +
-    geom_point_interactive(
-      aes(tooltip = glue::glue('Data: {date}\nValore: {valore}'),
-          colour = after_stat(y)),
-      size = 1,
-      alpha = .8) +
-    scale_colour_gradient2_interactive(
-      low = def_colour,
-      mid = mid_colour,
-      high = limits_colour,
-      midpoint = eu_limits
-    ) +
-    scale_x_date(
-      breaks = breaks_on_fortnight,
-      minor_breaks = NULL,
-      expand = expansion(mult = c(.01, .1)),
-      date_labels = '%b %d'
-    ) +
-    guides(colour = 'none') +
-    labs(x = '',
-         y = 'Concentration [µg/m3]',
-         title = pollutant_name)
-  
-  g <- 
-    girafe(
-    ggobj = p,
-    height_svg = height_svg,
-    pointsize = pointsize,
-    options = list(
-      opts_sizing(rescale = TRUE, width = 1)
-    ))
-  
-  return(g)
-}
-```
-
 ```{r data-wrangling}
 #| include: false
 
@@ -216,56 +134,7 @@ air_q_scaled <-
 
 ```{r heatmap}
 #| panel: fill
-
-p_heat <- 
-  air_q_scaled %>% 
-  ggplot() +
-  aes(
-    x = date,
-    y = inquinante, 
-    fill = scaled,
-    colour = after_stat(fill)
-  ) +
-  geom_tile_interactive(
-    aes(tooltip = glue::glue('Data: {date}
-                              Pollutant: {inquinante}
-                             Valore: {scaled}')), 
-    size = 0
-    # hover_css = 'stroke-colour:0c0c02;'
-  ) +
-  scale_fill_gradient2(
-      low = def_colour,
-      mid = mid_colour,
-      high = limits_colour,
-      midpoint = 1,
-      limits = c(0, NA)
-    ) +
-  scale_colour_gradient2(
-      low = def_colour,
-      mid = mid_colour,
-      high = limits_colour,
-      midpoint = 1
-    ) +
-  scale_x_date(
-    breaks = breaks_on_fortnight,
-    minor_breaks = NULL,
-    expand = expansion(mult = c(.01, .1)),
-    date_labels = '%b %d'
-  ) +
-  guides(fill = 'none',
-         colour = 'none') +
-  labs(x = '',
-       y = 'Concentration [µg/m3]') +
-  theme(panel.grid = element_blank())
-
-
-girafe(
-  ggobj = p_heat,
-  height_svg = height_svg,
-  pointsize = pointsize,
-  options = list(
-    opts_sizing(rescale = TRUE, width = 1)
-  ))
+plot_heat(air_q_scaled)
 ```
 
 :::
