@@ -52,7 +52,7 @@ def_colour <- 'blue'
 mid_colour <- 'grey50'
 loess_span <- .2 # span should increase during the year
 ozone_limits <- 120
-height_svg <- 3
+height_svg <- 2
 pointsize <- 10
 
 theme_set(
@@ -127,11 +127,11 @@ air_q_scaled <-
   unnest(data_scaled)
 ```
 
-::::: {.grid}
+:::::: {.grid}
+
+::::: {.g-col-8}
 
 ::: {.g-col-12}
-
-### All Pollutants
 
 ```{r heatmap}
 #| panel: fill
@@ -196,5 +196,15 @@ air_q %>% filter(pollutant_name == 'Carbon monoxide') %>% pull(plots) %>% .[[1]]
 :::
 
 ::::
+
+:::::
+
+::::: {.g-col-4}
+
+### Some stats
+
+and info
+
+:::::
 
 :::::
