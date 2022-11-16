@@ -2,6 +2,9 @@
 title: "Milano Air Quality Dashboard"
 execute:
   echo: false
+format: 
+  html:
+    page-layout: custom
 editor_options: 
   chunk_output_type: console
 ---
@@ -201,10 +204,14 @@ air_q_scaled <-
   unnest(data_scaled)
 ```
 
+:::: {.grid}
+
+::: {.g-col-6}
+
 ### All Pollutants
 
 ```{r heatmap}
-
+#| panel: fill
 
 p_heat <- 
   air_q_scaled %>% 
@@ -257,46 +264,83 @@ girafe(
   ))
 ```
 
+:::
+
+::: {.g-col-6}
 
 ### Ozone
 
 ```{r ozone}
+#| panel: fill
 air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
 ```
+
+:::
+
+::: {.g-col-6}
 
 ### Nitrogen dioxide
 
 ```{r no}
+#| panel: fill
 air_q %>% filter(pollutant_name == 'Nitrogen dioxide') %>% pull(plots) %>% .[[1]]
 ```
+
+:::
+
+::: {.g-col-6}
 
 ### Polycyclic Aromatics
 
 ```{r aro}
+#| panel: fill
 air_q %>% filter(pollutant_name == 'Polycyclic Aromatic Hydrocarbons') %>% pull(plots) %>% .[[1]]
 ```
+
+:::
+
+::: {.g-col-6}
 
 ### Particulate matter PM10
 
 ```{r pm10}
+#| panel: fill
 air_q %>% filter(pollutant_name == 'Particulate matter') %>% pull(plots) %>% .[[1]]
 ```
+
+:::
+
+::: {.g-col-6}
 
 ### Fine particles PM2.5
 
 ```{r pm25}
+#| panel: fill
 air_q %>% filter(pollutant_name == 'Fine particles') %>% pull(plots) %>% .[[1]]
 ```
+
+:::
+
+::: {.g-col-6}
 
 ### Sulphur dioxide
 
 ```{r so}
+#| panel: fill
 air_q %>% filter(pollutant_name == 'Sulphur dioxide') %>% pull(plots) %>% .[[1]]
 ```
+
+:::
+
+::: {.g-col-6}
 
 ### Carbon monoxide
 
 ```{r co}
+#| panel: fill
 air_q %>% filter(pollutant_name == 'Carbon monoxide') %>% pull(plots) %>% .[[1]]
 ```
 
+:::
+
+::::
