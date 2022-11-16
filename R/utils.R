@@ -76,8 +76,7 @@ plot_pollutant <- function(data,
     ) +
     guides(colour = 'none') +
     labs(x = '',
-         y = 'Concentration [µg/m3]',
-         title = pollutant_name)
+         y = 'Concentration [µg/m3]')
   
   g <- 
     girafe(
@@ -129,7 +128,7 @@ plot_heat <- function(air_q_scaled) {
     guides(fill = 'none',
            colour = 'none') +
     labs(x = '',
-         y = 'Concentration [µg/m3]') +
+         y = '') +
     theme(panel.grid = element_blank())
   
   
