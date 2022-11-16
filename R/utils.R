@@ -65,7 +65,8 @@ plot_pollutant <- function(data,
       low = def_colour,
       mid = mid_colour,
       high = limits_colour,
-      midpoint = eu_limits
+      midpoint = eu_limits,
+      limits = c(0, NA)
     ) +
     scale_x_date(
       breaks = breaks_on_fortnight,
@@ -108,18 +109,16 @@ plot_heat <- function(air_q_scaled) {
       size = 0
       # hover_css = 'stroke-colour:0c0c02;'
     ) +
-    scale_fill_gradient2(
-      low = bkg_colour,
-      mid = mid_colour,
-      high = limits_colour,
-      midpoint = 1,
+    # https://stackoverflow.com/questions/11299705/
+    scale_fill_gradientn_interactive(
+      colors = c(bkg_colour, mid_colour, limits_colour),
+      values = scales::rescale(c(0, 1, max(air_q_scaled$scaled, na.rm = T))),
       limits = c(0, NA)
     ) +
-    scale_colour_gradient2(
-      low = bkg_colour,
-      mid = mid_colour,
-      high = limits_colour,
-      midpoint = 1
+    scale_colour_gradientn_interactive(
+      colors = c(bkg_colour, mid_colour, limits_colour),
+      values = scales::rescale(c(0, 1, max(air_q_scaled$scaled, na.rm = T))),
+      limits = c(0, NA)
     ) +
     scale_x_date(
       breaks = breaks_on_fortnight,
