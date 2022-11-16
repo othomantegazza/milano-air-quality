@@ -1,6 +1,5 @@
 project:
   title: "air-quality-js"
-  type: website
   output-dir: docs
   render:
     - index.qmd
