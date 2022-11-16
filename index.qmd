@@ -46,6 +46,7 @@ source(
 label_size <- 9
 thin_line <- .2
 medium_line <- .5
+bkg_colour <- 'white'
 limits_colour <- 'red'
 def_colour <- 'blue'
 mid_colour <- 'grey50'

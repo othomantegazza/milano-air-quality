@@ -103,20 +103,20 @@ plot_heat <- function(air_q_scaled) {
     ) +
     geom_tile_interactive(
       aes(tooltip = glue::glue('Data: {date}
-                              Pollutant: {inquinante}
-                             Valore: {scaled}')), 
+                                Pollutant: {inquinante}
+                                Valore: {scaled}')), 
       size = 0
       # hover_css = 'stroke-colour:0c0c02;'
     ) +
     scale_fill_gradient2(
-      low = def_colour,
+      low = bkg_colour,
       mid = mid_colour,
       high = limits_colour,
       midpoint = 1,
       limits = c(0, NA)
     ) +
     scale_colour_gradient2(
-      low = def_colour,
+      low = bkg_colour,
       mid = mid_colour,
       high = limits_colour,
       midpoint = 1
