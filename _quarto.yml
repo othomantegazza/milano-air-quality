@@ -8,7 +8,7 @@ project:
     port: 4200
 
 execute:
-  freeze: auto
+  freeze: false
 
 
 
