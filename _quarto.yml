@@ -1,0 +1,14 @@
+project:
+  title: "air-quality-js"
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+  preview:
+    port: 4200
+
+execute:
+  freeze: auto
+
+
+

@@ -1,10 +1,14 @@
+# quarto output
+docs/**
+_freeze/**
+
 # data
 data/**
 
 # mac stuff
 **.DS_Store
 
-# output 
+# output
 **.html
 
 # History files
@@ -62,3 +66,5 @@ rsconnect/
 .Rhistory
 .RData
 .Ruserdata
+
+/.quarto/

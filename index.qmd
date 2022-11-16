@@ -1,21 +1,23 @@
 ---
 title: "Milano Air Quality Dashboard"
-output: 
-  flexdashboard::flex_dashboard:
-    orientation: rows
-    # vertical_layout: scroll
+execute:
+  echo: false
 editor_options: 
   chunk_output_type: console
 ---
 
-```{r notes, include=FALSE}
+```{r notes}
+#| include: false
+
 # https://www.eea.europa.eu/themes/air/air-quality-concentrations/AirQlimitvalues.png
-  # https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
+# https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
 # https://dati.comune.milano.it/dataset/ds411-rilevazione-qualita-aria-2022
 ```
 
 
-```{r packages, include=FALSE}
+```{r packages}
+#| include: false
+
 library(tidyverse)
 library(here)
 library(tsibble)
@@ -23,7 +25,9 @@ library(lubridate)
 library(ggiraph)
 ```
 
-```{r params, include=FALSE}
+```{r params}
+#| include: false
+
 label_size <- 9
 thin_line <- .2
 medium_line <- .5
@@ -71,6 +75,8 @@ pollutants <-
 ```
 
 ```{r functions}
+#| include: false
+
 scale_pollutant <- 
   function(data, eu_limits, ...) {
 
@@ -158,7 +164,9 @@ plot_pollutant <- function(data,
 }
 ```
 
-```{r data, include=FALSE}  
+```{r data-wrangling}
+#| include: false
+
 air_q_url <-
   'data/e1cc82ec-97bb-463c-a3fb-b61be60f0956.csv'
 
@@ -178,21 +186,11 @@ air_q <-
   nest() %>% 
   left_join(pollutants)
 
-```
-
-
-```{r viz, include=FALSE}
+# For scatterplots -------------------------------------
 air_q$plots <- air_q %>% pmap(plot_pollutant)
-```
 
-Column {data-width=700}
-------------------------------------
-Row
--------------------------------------
 
-### All Pollutants  {data-height=300}
-
-```{r heatmap}
+# For heatmap ------------------------------------------
 air_q$data_scaled <- 
   air_q %>% 
   pmap(scale_pollutant)
@@ -201,6 +199,12 @@ air_q_scaled <-
   air_q %>% 
   select(inquinante, pollutant_name, data_scaled) %>% 
   unnest(data_scaled)
+```
+
+### All Pollutants
+
+```{r heatmap}
+
 
 p_heat <- 
   air_q_scaled %>% 
@@ -254,9 +258,6 @@ girafe(
 ```
 
 
-Row {.tabset .tabset-fade}
--------------------------------------
-
 ### Ozone
 
 ```{r ozone}
@@ -299,5 +300,3 @@ air_q %>% filter(pollutant_name == 'Sulphur dioxide') %>% pull(plots) %>% .[[1]]
 air_q %>% filter(pollutant_name == 'Carbon monoxide') %>% pull(plots) %>% .[[1]]
 ```
 
-Column {data-width=300}
--------------------------------------------
