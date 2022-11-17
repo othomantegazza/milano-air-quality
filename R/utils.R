@@ -26,12 +26,13 @@ scale_pollutant <-
     return(data)
   }
 
-breaks_on_fortnight <- function(x) {
-  n_days <- 14
+breaks_on_fortnight <- function(x,
+                                n_days = 14,
+                                offset = 1) {
   d <- seq.Date(from = min(x),
-                to = max(x) + days(n_days - 1),
+                to = max(x) + days(n_days - offset),
                 by = n_days)
-  return(d - days(n_days - 1))
+  return(d - days(n_days - offset))
 }
 
 plot_pollutant <- function(data,
@@ -120,7 +121,7 @@ plot_heat <- function(air_q_scaled) {
       limits = c(0, NA)
     ) +
     scale_x_date(
-      breaks = breaks_on_fortnight,
+      breaks = ~breaks_on_fortnight(., offset = 2),
       minor_breaks = NULL,
       expand = expansion(mult = c(.01, .1)),
       date_labels = '%b %d'
