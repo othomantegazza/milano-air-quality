@@ -2,8 +2,11 @@
 title: "Milano Air Quality Dashboard"
 execute:
   echo: false
-format: 
-  html:
+format:
+  html: 
+    theme:
+      - default
+      - style/custom.scss
     page-layout: custom
     margin-left: 10px
     margin-top: 10px
