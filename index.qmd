@@ -55,7 +55,7 @@ def_colour <- 'blue'
 mid_colour <- 'grey50'
 loess_span <- .2 # span should increase during the year
 ozone_limits <- 120
-height_svg <- 2
+height_svg <- 2.2
 pointsize <- 10
 
 theme_set(
@@ -168,14 +168,14 @@ air_q %>% filter(pollutant_name == 'Nitrogen dioxide') %>% pull(plots) %>% .[[1]
 air_q %>% filter(pollutant_name == 'Polycyclic Aromatic Hydrocarbons') %>% pull(plots) %>% .[[1]]
 ```
 
-### Particulate matter PM10
+### PM10
 
 ```{r pm10}
 #| panel: fill
 air_q %>% filter(pollutant_name == 'Particulate matter') %>% pull(plots) %>% .[[1]]
 ```
 
-### Fine particles PM2.5
+### PM2.5
 
 ```{r pm25}
 #| panel: fill

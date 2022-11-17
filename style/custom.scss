@@ -1,14 +1,10 @@
 /*-- scss:defaults --*/
-$h1-font-size:          200px !default;
-$h3-font-size:          200px !default;
-$headings-font-weight:  500 !default;
+$h1-font-size:          30px !default;
+$h2-font-size:          24px !default;
+$h3-font-size:          20px !default;
+
 
 /*-- scss:rules --*/
-h1, h2, h3, h4, h5, h6 {
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, .3);
-  color: green !important;
-}
-
 .nav-link {
-  color: yellow !important;
+  font-size: 15px;
 }
