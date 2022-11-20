@@ -39,9 +39,6 @@ plot_pollutant <- function(data,
                            eu_limits,
                            pollutant_name,
                            ...) {
-  
-  max_x <- data$date %>% max(na.rm = T)
-  
   p <- 
     data %>%  
     ggplot(
@@ -65,14 +62,6 @@ plot_pollutant <- function(data,
           colour = after_stat(y)),
       size = 1,
       alpha = .8) +
-    # annotate_interactive(geom = 'text',
-    #                      x = max_x,
-    #                      y = eu_limits,
-    #                      label = 'EU Limits',
-    #                      size = anno_size,
-    #                      colour = mid_colour,
-    #                      vjust = -.1,
-    #                      hjust = 1) +
     scale_colour_gradient2_interactive(
       low = def_colour,
       mid = mid_colour,
