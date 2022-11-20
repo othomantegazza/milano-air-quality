@@ -48,11 +48,13 @@ source(
 
 label_size <- 9
 thin_line <- .2
-medium_line <- .5
+medium_line <- 1
+anno_size <- 2
 bkg_colour <- 'white'
 limits_colour <- 'red'
 def_colour <- 'blue'
 mid_colour <- 'grey50'
+mid_light <- 'grey80'
 loess_span <- .2 # span should increase during the year
 ozone_limits <- 120
 height_svg <- 2.2

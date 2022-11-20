@@ -40,6 +40,8 @@ plot_pollutant <- function(data,
                            pollutant_name,
                            ...) {
   
+  max_x <- data$date %>% max(na.rm = T)
+  
   p <- 
     data %>%  
     ggplot(
@@ -49,10 +51,11 @@ plot_pollutant <- function(data,
       )
     ) +
     geom_hline(yintercept = 0) +
-    geom_hline(yintercept = eu_limits,
-               colour = mid_colour,
-               size = thin_line, 
-               lty = '1212')  +
+    geom_hline_interactive(yintercept = eu_limits,
+                           colour = mid_light,
+                           size = medium_line, 
+                           tooltip = glue::glue('EU Limits: {eu_limits} µg/m3'),
+                           lty = '31')  +
     geom_smooth(size = medium_line,
                 colour = '#00000000',
                 method = 'loess',
@@ -62,6 +65,14 @@ plot_pollutant <- function(data,
           colour = after_stat(y)),
       size = 1,
       alpha = .8) +
+    # annotate_interactive(geom = 'text',
+    #                      x = max_x,
+    #                      y = eu_limits,
+    #                      label = 'EU Limits',
+    #                      size = anno_size,
+    #                      colour = mid_colour,
+    #                      vjust = -.1,
+    #                      hjust = 1) +
     scale_colour_gradient2_interactive(
       low = def_colour,
       mid = mid_colour,
