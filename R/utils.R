@@ -112,6 +112,15 @@ plot_heat <- function(air_q_scaled) {
   
   p_heat <- 
     air_q_scaled %>% 
+    mutate(tooltip = glue('{inquinante}	→ {(scaled*100) %>% round(1)}%')) %>% 
+    arrange(desc(inquinante)) %>% 
+    # mutate(inquinante = as_factor(inquinante)) %>% 
+    group_by(date) %>% 
+    mutate(
+      tooltip = glue_collapse(tooltip, sep = '\n') %>%
+        {glue('Date: {date}\n{.}')}
+    ) %>% 
+    ungroup() %>% 
     ggplot() +
     aes(
       x = date,
@@ -120,11 +129,9 @@ plot_heat <- function(air_q_scaled) {
       colour = after_stat(fill)
     ) +
     geom_tile_interactive(
-      aes(tooltip = glue::glue('Data: {date}
-                                Pollutant: {inquinante}
-                                Valore: {scaled}')), 
+      aes(tooltip = tooltip,
+          data_id = date), 
       size = 0
-      # hover_css = 'stroke-colour:0c0c02;'
     ) +
     # https://stackoverflow.com/questions/11299705/
     scale_fill_gradientn_interactive(
@@ -155,8 +162,12 @@ plot_heat <- function(air_q_scaled) {
     height_svg = height_svg,
     pointsize = pointsize,
     options = list(
-      opts_sizing(rescale = TRUE, width = 1)
-    ))
+      opts_hover(
+        css = glue("fill:{hover_colour};",
+                   "stroke:{hover_colour};")
+      )
+    )
+  )
   
   return(g)
 }
