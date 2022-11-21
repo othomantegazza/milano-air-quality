@@ -58,7 +58,7 @@ mid_light <- 'grey80'
 hover_colour <- '#FF00FF'
 loess_span <- .2 # span should increase during the year
 ozone_limits <- 120
-height_svg <- 2.2
+height_svg <- 2.6
 pointsize <- 10
 ```
 
