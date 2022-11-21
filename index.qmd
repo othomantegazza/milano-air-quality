@@ -55,6 +55,7 @@ limits_colour <- 'red'
 def_colour <- 'blue'
 mid_colour <- 'grey50'
 mid_light <- 'grey80'
+hover_colour <- '#FF00FF'
 loess_span <- .2 # span should increase during the year
 ozone_limits <- 120
 height_svg <- 2.2
@@ -97,9 +98,6 @@ set_girafe_defaults(
     css = glue("background-color:#333333;",
                "color:white;padding:3px;",
                "border-radius:2px;")
-  ),
-  opts_hover = opts_hover(
-    css = "fill:magenta;stroke:black;cursor:pointer;r:5px;"
   ),
   opts_sizing = opts_sizing(
     rescale = TRUE,

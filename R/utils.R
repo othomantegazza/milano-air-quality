@@ -41,6 +41,14 @@ plot_pollutant <- function(data,
                            ...) {
   p <- 
     data %>%  
+    group_by(date) %>% 
+    mutate(
+      tooltip = glue(
+        "Date: {unique(date)}\n",
+        "Mean Value: {mean(valore, na.rm = T)} µg/m3"
+      )
+    ) %>% 
+    ungroup() %>% 
     ggplot(
       aes(
         x = date,
@@ -52,18 +60,20 @@ plot_pollutant <- function(data,
                            colour = mid_light,
                            linewidth = medium_line, 
                            tooltip = glue::glue('EU Limits: {eu_limits} µg/m3'),
-                           lty = '31')  +
+                           lty = '31',
+                           data_id = 1)  +
     geom_smooth(size = medium_line,
                 colour = '#00000000',
                 method = 'loess',
                 span = loess_span) +
     geom_point_interactive(
-      aes(tooltip = glue::glue('Data: {date}\nValore: {valore}'),
+      aes(tooltip = tooltip,
           data_id = date,
           colour = after_stat(y)
           ),
       size = 1,
-      alpha = .8) +
+      alpha = .8,
+      hover_nearest = T) +
     scale_colour_gradient2(
       low = def_colour,
       mid = mid_colour,
@@ -85,8 +95,15 @@ plot_pollutant <- function(data,
     girafe(
       ggobj = p,
       height_svg = height_svg,
-      pointsize = pointsize
-  )
+      pointsize = pointsize,
+      options = list(
+        opts_hover(
+          css = glue("fill:{hover_colour};",
+                     "stroke:black;",
+                     "r:5px;")
+        )
+      )
+    )
   
   return(g)
 }
