@@ -85,8 +85,14 @@ plot_pollutant <- function(data,
       height_svg = height_svg,
       pointsize = pointsize,
       options = list(
-        opts_sizing(rescale = TRUE, width = 1)
-      ))
+        opts_hover(
+          css = "fill:magenta;stroke:black;cursor:pointer;r:5px;"
+        )
+        # opts_sizing = opts_sizing,
+        # opts_hover = opts_hover,
+        # opts_tooltip = opts_tooltip
+      )
+    )
   
   return(g)
 }

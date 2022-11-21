@@ -59,7 +59,11 @@ loess_span <- .2 # span should increase during the year
 ozone_limits <- 120
 height_svg <- 2.2
 pointsize <- 10
+```
 
+
+```{r params-ggplot}
+#| include: false
 theme_set(
   theme_minimal() +
     theme(
@@ -81,6 +85,33 @@ theme_set(
       )
     ) 
 )
+```
+
+
+```{r params-ggiraph}
+#| include: false
+
+opts_tooltip <-
+  opts_tooltip(
+    opacity = 1,
+    css = "background-color:#333333;color:white;padding:3px;border-radius:2px;"
+  )
+
+opts_hover <-
+  opts_hover(
+    css = "fill:magenta;stroke:black;cursor:pointer;r:5px;"
+  )
+
+opts_sizing <-
+  opts_sizing(
+    rescale = TRUE,
+    width = 1
+  ) 
+```
+
+
+```{r params-pollutants}
+#| include: false
 
 # from https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
 pollutants <- 
