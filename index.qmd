@@ -114,12 +114,12 @@ set_girafe_defaults(
 pollutants <- 
   tribble(~inquinante, ~pollutant_name, ~eu_limits,
           'C6H6', 'Polycyclic Aromatic Hydrocarbons', 1e-3,
-          'CO_8h', 'Carbon monoxide', 1e4,
-          'NO2', 'Nitrogen dioxide', 40,
+          'CO_8h', 'Carbon Monoxide', 1e4,
+          'NO2', 'Nitrogen Dioxide', 40,
           'O3', 'Ozone', 120,
-          'PM10', 'Particulate matter', 40,
-          'PM25', 'Fine particles', 20,
-          'SO2', 'Sulphur dioxide', 125,
+          'PM10', 'Particulate Matter', 40,
+          'PM25', 'Fine Particles', 20,
+          'SO2', 'Sulphur Dioxide', 125,
           )
 ```
 
@@ -184,7 +184,7 @@ plot_heat(air_q_scaled)
 air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
 ```
 
-### Nitrogen dioxide
+### Nitrogen Dioxide
 
 ```{r no}
 #| panel: fill
@@ -212,14 +212,14 @@ air_q %>% filter(pollutant_name == 'Particulate matter') %>% pull(plots) %>% .[[
 air_q %>% filter(pollutant_name == 'Fine particles') %>% pull(plots) %>% .[[1]]
 ```
 
-### Sulphur dioxide
+### Sulphur Dioxide
 
 ```{r so}
 #| panel: fill
 air_q %>% filter(pollutant_name == 'Sulphur dioxide') %>% pull(plots) %>% .[[1]]
 ```
 
-### Carbon monoxide
+### Carbon Monoxide
 
 ```{r co}
 #| panel: fill
