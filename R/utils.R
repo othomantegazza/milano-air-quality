@@ -59,10 +59,12 @@ plot_pollutant <- function(data,
                 span = loess_span) +
     geom_point_interactive(
       aes(tooltip = glue::glue('Data: {date}\nValore: {valore}'),
-          colour = after_stat(y)),
+          data_id = date,
+          colour = after_stat(y)
+          ),
       size = 1,
       alpha = .8) +
-    scale_colour_gradient2_interactive(
+    scale_colour_gradient2(
       low = def_colour,
       mid = mid_colour,
       high = limits_colour,
@@ -83,16 +85,8 @@ plot_pollutant <- function(data,
     girafe(
       ggobj = p,
       height_svg = height_svg,
-      pointsize = pointsize,
-      options = list(
-        opts_hover(
-          css = "fill:magenta;stroke:black;cursor:pointer;r:5px;"
-        )
-        # opts_sizing = opts_sizing,
-        # opts_hover = opts_hover,
-        # opts_tooltip = opts_tooltip
-      )
-    )
+      pointsize = pointsize
+  )
   
   return(g)
 }

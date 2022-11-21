@@ -27,12 +27,12 @@ editor_options:
 
 ```{r packages}
 #| include: false
-
 library(tidyverse)
 library(here)
 library(tsibble)
 library(lubridate)
 library(ggiraph)
+library(glue)
 ```
 
 ```{r functions}
@@ -91,22 +91,21 @@ theme_set(
 ```{r params-ggiraph}
 #| include: false
 
-opts_tooltip <-
-  opts_tooltip(
+set_girafe_defaults(
+  opts_tooltip = opts_tooltip(
     opacity = 1,
-    css = "background-color:#333333;color:white;padding:3px;border-radius:2px;"
-  )
-
-opts_hover <-
-  opts_hover(
+    css = glue("background-color:#333333;",
+               "color:white;padding:3px;",
+               "border-radius:2px;")
+  ),
+  opts_hover = opts_hover(
     css = "fill:magenta;stroke:black;cursor:pointer;r:5px;"
-  )
-
-opts_sizing <-
-  opts_sizing(
+  ),
+  opts_sizing = opts_sizing(
     rescale = TRUE,
     width = 1
-  ) 
+  )
+)
 ```
 
 
