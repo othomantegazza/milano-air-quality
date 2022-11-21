@@ -114,7 +114,7 @@ set_girafe_defaults(
 pollutants <- 
   tribble(~inquinante, ~pollutant_name, ~eu_limits,
           'C6H6', 'Polycyclic Aromatic Hydrocarbons', 1e-3,
-          'CO_8h', 'Carbon Monoxide', 1e4,
+          'CO', 'Carbon Monoxide', 1e4,
           'NO2', 'Nitrogen Dioxide', 40,
           'O3', 'Ozone', 120,
           'PM10', 'Particulate Matter', 40,
@@ -135,12 +135,22 @@ air_q <-
   janitor::clean_names() %>% 
   rename(date = data) %>% 
   mutate(date = date %>% as_date()) %>% 
-  # guessing real order of magnitude of measuremnts
-  mutate(valore = valore %>% {
-    case_when(inquinante == 'C6H6' ~ . * 1e-3,
-              inquinante == 'CO_8h' ~ . * 1e3,
-              TRUE ~ .)
-  }) %>% 
+  mutate(
+    across(
+      .cols = inquinante,
+      .fns = ~case_when(
+        . == 'CO_8h' ~ 'CO',
+        TRUE ~ .)
+    ),
+    # guessing real order of magnitude of measuremnts
+    across(
+      .cols = valore,
+      .fns = ~case_when(
+        inquinante == 'C6H6' ~ . * 1e-3,
+        inquinante == 'CO' ~ . * 1e3,
+        TRUE ~ .)
+    )
+  ) %>% 
   group_by(inquinante) %>% 
   nest() %>% 
   left_join(pollutants)
@@ -188,7 +198,7 @@ air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
 
 ```{r no}
 #| panel: fill
-air_q %>% filter(pollutant_name == 'Nitrogen dioxide') %>% pull(plots) %>% .[[1]]
+air_q %>% filter(pollutant_name == 'Nitrogen Dioxide') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Polycyclic Aromatics
@@ -202,28 +212,28 @@ air_q %>% filter(pollutant_name == 'Polycyclic Aromatic Hydrocarbons') %>% pull(
 
 ```{r pm10}
 #| panel: fill
-air_q %>% filter(pollutant_name == 'Particulate matter') %>% pull(plots) %>% .[[1]]
+air_q %>% filter(pollutant_name == 'Particulate Matter') %>% pull(plots) %>% .[[1]]
 ```
 
 ### PM2.5
 
 ```{r pm25}
 #| panel: fill
-air_q %>% filter(pollutant_name == 'Fine particles') %>% pull(plots) %>% .[[1]]
+air_q %>% filter(pollutant_name == 'Fine Particles') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Sulphur Dioxide
 
 ```{r so}
 #| panel: fill
-air_q %>% filter(pollutant_name == 'Sulphur dioxide') %>% pull(plots) %>% .[[1]]
+air_q %>% filter(pollutant_name == 'Sulphur Dioxide') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Carbon Monoxide
 
 ```{r co}
 #| panel: fill
-air_q %>% filter(pollutant_name == 'Carbon monoxide') %>% pull(plots) %>% .[[1]]
+air_q %>% filter(pollutant_name == 'Carbon Monoxide') %>% pull(plots) %>% .[[1]]
 ```
 
 :::
