@@ -50,7 +50,7 @@ plot_pollutant <- function(data,
     geom_hline(yintercept = 0) +
     geom_hline_interactive(yintercept = eu_limits,
                            colour = mid_light,
-                           size = medium_line, 
+                           linewidth = medium_line, 
                            tooltip = glue::glue('EU Limits: {eu_limits} µg/m3'),
                            lty = '31')  +
     geom_smooth(size = medium_line,
