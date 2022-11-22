@@ -127,11 +127,11 @@ pollutants <-
 #| include: false
 
 air_q_url <-
-  'data/e1cc82ec-97bb-463c-a3fb-b61be60f0956.csv'
+  'https://dati.comune.milano.it/dataset/f6d5e0c0-3cef-4a63-b038-6684c8dca88d/resource/e1cc82ec-97bb-463c-a3fb-b61be60f0956/download/qaria_datoariagiornostazione_2022-11-22.csv'
 
 air_q <- 
   air_q_url %>% 
-  readr::read_csv() %>% 
+  readr::read_delim(delim = ';') %>% 
   janitor::clean_names() %>% 
   rename(date = data) %>% 
   mutate(date = date %>% as_date()) %>% 
