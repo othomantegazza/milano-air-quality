@@ -84,7 +84,7 @@ plot_pollutant <- function(data,
     scale_x_date(
       breaks = breaks_on_fortnight,
       minor_breaks = NULL,
-      expand = expansion(mult = c(.01, .1)),
+      expand = expansion(mult = c(.01, .02)),
       date_labels = '%b %d'
     ) +
     guides(colour = 'none') +
@@ -149,7 +149,7 @@ plot_heat <- function(air_q_scaled) {
     scale_x_date(
       breaks = ~breaks_on_fortnight(., offset = 2),
       minor_breaks = NULL,
-      expand = expansion(mult = c(.01, .1)),
+      expand = expansion(mult = c(.01, .02)),
       date_labels = '%b %d'
     ) +
     guides(fill = 'none',
