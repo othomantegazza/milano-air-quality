@@ -274,6 +274,9 @@ Electric cars are no solution to this issue.
 
 This dashboard was made and is maintained by [Otho Mantegazza](https://www.linkedin.com/in/otho-mantegazza/), feel free to contactme for any question or suggestion. You can find the [source code on Github](https://github.com/othomantegazza/milano-air-quality).
 
+```{r}
+validated_fonts()
+```
 
 
 :::::

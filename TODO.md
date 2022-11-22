@@ -4,6 +4,8 @@
 - [ ] What's pointsize in ggiraph
 - [ ] Systematic Layout for plots
 - [ ] Mobile Layout
+- [ ] fix ggirafe font
+- [ ] review text
 
 ## Done
 
