@@ -250,7 +250,7 @@ The measurements of pollutant concentrations come from the [Open Data Portal](ht
 
 You can find the [European Target limits reported here](https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en). I choose to use the most stringent limits reported.
 
-Out of 
+Air pollutant in Milano are often above limits.
 
 ```{r}
 #| echo: false
@@ -269,6 +269,10 @@ air_q %>%
   rename_all(~snakecase::to_any_case(., case = 'title')) %>% 
   knitr::kable(format = 'html') 
 ```
+
+This dashboard was made and is maintained by [Otho Mantegazza](https://www.linkedin.com/in/otho-mantegazza/), feel free to contactme for any question or suggestion. You can find the [source code on Github](https://github.com/othomantegazza/milano-air-quality).
+
+
 
 :::::
 
