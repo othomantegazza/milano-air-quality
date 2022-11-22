@@ -172,7 +172,7 @@ air_q_scaled <-
 
 :::::: {.grid}
 
-::::: {.g-col-8}
+::::: {.g-col-12 .g-col-md-8}
 
 ::: {.g-col-12}
 
@@ -242,7 +242,7 @@ air_q %>% filter(pollutant_name == 'Carbon Monoxide') %>% pull(plots) %>% .[[1]]
 
 :::::
 
-::::: {.g-col-4}
+::::: {.g-col-12 .g-col-md-4}
 
 This dashboard aims at representing the air quality in the city of Milan, Italy.
 
@@ -273,11 +273,6 @@ air_q %>%
 Electric cars are no solution to this issue.
 
 This dashboard was made and is maintained by [Otho Mantegazza](https://www.linkedin.com/in/otho-mantegazza/), feel free to contactme for any question or suggestion. You can find the [source code on Github](https://github.com/othomantegazza/milano-air-quality).
-
-```{r}
-validated_fonts()
-```
-
 
 :::::
 
