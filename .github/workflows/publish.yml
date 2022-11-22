@@ -1,5 +1,7 @@
 on:
-  workflow_dispatch
+  workflow_dispatch:
+  schedule:
+    - cron: '52 3 * * 1-6'
 
 name: "Render and Publish"
 
