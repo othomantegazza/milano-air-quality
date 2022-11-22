@@ -1,5 +1,5 @@
 ---
-title: "Milano Air Quality Dashboard"
+title: "2022 - Milano Air Quality"
 execute:
   echo: false
 format:
@@ -10,7 +10,7 @@ format:
     page-layout: custom
     margin-left: 10px
     margin-top: 10px
-    margin-right: 10px
+    margin-right: 30px
     margin-bottom: 10px
 editor_options: 
   chunk_output_type: console
@@ -142,7 +142,7 @@ air_q <-
         . == 'CO_8h' ~ 'CO',
         TRUE ~ .)
     ),
-    # guessing real order of magnitude of measuremnts
+    # guessing real order of magnitude of measurements
     across(
       .cols = valore,
       .fns = ~case_when(
@@ -244,9 +244,31 @@ air_q %>% filter(pollutant_name == 'Carbon Monoxide') %>% pull(plots) %>% .[[1]]
 
 ::::: {.g-col-4}
 
-### Some stats
+This dashboard aims at representing the air quality in the city of Milan, Italy.
 
-and info
+The measurements of pollutant concentrations come from the [Open Data Portal](https://dati.comune.milano.it/dataset/ds411-rilevazione-qualita-aria-2022) of the city of Milan. I'm making minor fixes to the measurement units of *policyclic aromatic compounds* which are reported at concentrations 1000 times higher than the expected range, and of *carbon monoxide*, which is reported at concentrations 1000 smaller than the expected range.
+
+You can find the [European Target limits reported here](https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en). I choose to use the most stringent limits reported.
+
+Out of 
+
+```{r}
+#| echo: false
+#| message: false
+air_q %>% 
+  select(inquinante, pollutant_name, data, eu_limits) %>% 
+  unnest(data) %>% 
+  drop_na() %>% 
+  group_by(date, inquinante, pollutant_name, eu_limits) %>% 
+  summarise(mean_conc = valore %>% mean(na.rm = T)) %>% 
+  mutate(above_limits = mean_conc > eu_limits) %>% 
+  group_by(pollutant_name,
+           pollutant_symbol = inquinante) %>% 
+  summarise(days_measured = n(),
+            days_above_limits = sum(above_limits)) %>% 
+  rename_all(~snakecase::to_any_case(., case = 'title')) %>% 
+  knitr::kable(format = 'html') 
+```
 
 :::::
 

@@ -12,3 +12,11 @@ $h3-font-size:          20px !default;
 div.tab-content {
   padding: 0px;
 }
+
+tr:nth-child(even) {
+  background-color: #ededed;
+}
+
+p, th, td {
+  font-size: 14px;
+}

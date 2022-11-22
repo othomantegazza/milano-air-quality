@@ -3,6 +3,7 @@
 - [ ] Improve imputing
 - [ ] What's pointsize in ggiraph
 - [ ] Systematic Layout for plots
+- [ ] Mobile Layout
 
 ## Done
 
