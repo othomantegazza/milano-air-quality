@@ -1,7 +1,7 @@
 on:
   workflow_dispatch
 
-name: Render and Publish
+name: "Render and Publish"
 
 jobs:
   build-deploy:
@@ -24,18 +24,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libcurl4-openssl-dev libudunits2-dev
-
+          
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 1
 
-    - name: "Install Quarto and render"
-      uses: pommevilla/quarto-render@main
+      - name: "Install Quarto and render"
+        uses: pommevilla/quarto-render@main
 
-    - name: "Deploy to gh-pages"
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Deploy to gh-pages"
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./_site
