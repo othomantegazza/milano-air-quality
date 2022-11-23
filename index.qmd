@@ -248,7 +248,7 @@ air_q %>% filter(pollutant_name == 'Carbon Monoxide') %>% pull(plots) %>% .[[1]]
 
 ::::: {.g-col-12 .g-col-xl-4}
 
-This represents the air quality in the city of Milan, Italy, stating from open data measurements of pollutants concentration.
+This dashboard represents the air quality in the city of Milan, Italy, stating from open data measurements of pollutants concentration.
 
 The measurements come from the [Open Data Portal](https://dati.comune.milano.it/dataset/ds411-rilevazione-qualita-aria-2022) of the city of Milan. After featching those measurements, I'm making minor fixes to the measurement units of *policyclic aromatic compounds* which are reported at concentrations 1000 times higher than the expected range, and of *carbon monoxide*, which is reported at concentrations 1000 smaller than the expected range.
 
