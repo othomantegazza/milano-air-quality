@@ -244,13 +244,13 @@ air_q %>% filter(pollutant_name == 'Carbon Monoxide') %>% pull(plots) %>% .[[1]]
 
 ::::: {.g-col-12 .g-col-md-4}
 
-This dashboard aims at representing the air quality in the city of Milan, Italy.
+This represents the air quality in the city of Milan, Italy, stating from open data measurements of pollutants concentration.
 
-The measurements of pollutant concentrations come from the [Open Data Portal](https://dati.comune.milano.it/dataset/ds411-rilevazione-qualita-aria-2022) of the city of Milan. I'm making minor fixes to the measurement units of *policyclic aromatic compounds* which are reported at concentrations 1000 times higher than the expected range, and of *carbon monoxide*, which is reported at concentrations 1000 smaller than the expected range.
+The measurements come from the [Open Data Portal](https://dati.comune.milano.it/dataset/ds411-rilevazione-qualita-aria-2022) of the city of Milan. After featching those measurements, I'm making minor fixes to the measurement units of *policyclic aromatic compounds* which are reported at concentrations 1000 times higher than the expected range, and of *carbon monoxide*, which is reported at concentrations 1000 smaller than the expected range.
 
-You can find the [European Target limits reported here](https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en). I choose to use the most stringent limits reported.
+All measurements are compared to European target limits, which [are documented  here](https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en). I choose to use the most stringent limits reported.
 
-Air pollutant in Milano are often above limits.
+Air pollutant in Milano are often above target limits.
 
 ```{r}
 #| echo: false
@@ -270,9 +270,9 @@ air_q %>%
   knitr::kable(format = 'html') 
 ```
 
-Electric cars are no solution to this issue.
+Electric cars are [no solution](https://theconversation.com/cycling-is-ten-times-more-important-than-electric-cars-for-reaching-net-zero-cities-157163) to this issue.
 
-This dashboard was made and is maintained by [Otho Mantegazza](https://www.linkedin.com/in/otho-mantegazza/), feel free to contactme for any question or suggestion. You can find the [source code on Github](https://github.com/othomantegazza/milano-air-quality).
+This dashboard was made and is maintained by [Otho Mantegazza](https://www.linkedin.com/in/otho-mantegazza/), feel free to contact me for any question or suggestion. You can find the [source code on Github](https://github.com/othomantegazza/milano-air-quality).
 
 :::::
 

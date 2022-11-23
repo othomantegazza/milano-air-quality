@@ -4,8 +4,10 @@
 - [ ] What's pointsize in ggiraph
 - [ ] Systematic Layout for plots
 - [ ] Mobile Layout
-- [ ] fix ggirafe font
-- [ ] review text
+
+## Open Issues
+
+- [ ] fix ggirafe font https://github.com/davidgohel/ggiraph/issues/242
 
 ## Done
 
@@ -19,3 +21,4 @@
 - [x] ggiraphe select and highlight
 - [x] Better limits display
 - [x] Check that estimated concentration are likely
+- [x] review text 
