@@ -176,7 +176,7 @@ air_q_scaled <-
 
 :::::: {.grid}
 
-::::: {.g-col-12 .g-col-md-8}
+::::: {.g-col-12 .g-col-xl-8}
 
 ::: {.g-col-12}
 
@@ -246,7 +246,7 @@ air_q %>% filter(pollutant_name == 'Carbon Monoxide') %>% pull(plots) %>% .[[1]]
 
 :::::
 
-::::: {.g-col-12 .g-col-md-4}
+::::: {.g-col-12 .g-col-xl-4}
 
 This represents the air quality in the city of Milan, Italy, stating from open data measurements of pollutants concentration.
 

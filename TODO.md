@@ -2,8 +2,6 @@
 
 - [ ] Improve imputing
 - [ ] What's pointsize in ggiraph
-- [ ] Systematic Layout for plots
-- [ ] Mobile Layout ==> Is it possible to set limits for grid width?
 
 ## Open Issues
 
@@ -21,4 +19,6 @@
 - [x] ggiraphe select and highlight
 - [x] Better limits display
 - [x] Check that estimated concentration are likely
-- [x] review text 
+- [x] review text
+- [x] Mobile Layout ==> Is it possible to set limits for grid width?
+- [x] Systematic Layout for plots
