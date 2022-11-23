@@ -3,7 +3,7 @@
 - [ ] Improve imputing
 - [ ] What's pointsize in ggiraph
 - [ ] Systematic Layout for plots
-- [ ] Mobile Layout
+- [ ] Mobile Layout ==> Is it possible to set limits for grid width?
 
 ## Open Issues
 
