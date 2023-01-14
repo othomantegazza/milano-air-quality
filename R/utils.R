@@ -44,7 +44,7 @@ plot_pollutant <- function(data,
     group_by(date) %>% 
     mutate(
       tooltip = glue(
-        '{unique(date) %>% format("%B %d")}\n',
+        '{unique(date) %>% format("%B %d, %Y")}\n',
         'Mean Value: {mean(valore, na.rm = T)} µg/m3'
       )
     ) %>% 
@@ -118,7 +118,7 @@ plot_heat <- function(air_q_scaled) {
     group_by(date) %>% 
     mutate(
       tooltip = glue_collapse(tooltip, sep = '\n') %>%
-        {glue('{date %>% format("%B %d")}\n',
+        {glue('{date %>% format("%B %d, %Y")}\n',
               'Percent of EU target limits:\n',
               '{.}')}
     ) %>% 

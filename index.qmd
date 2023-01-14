@@ -1,5 +1,5 @@
 ---
-title: "2022 - Milano Air Quality"
+title: "2022, 2023 - Milano Air Quality"
 execute:
   echo: false
 format:
@@ -130,12 +130,26 @@ pollutants <-
 ```{r data-wrangling}
 #| include: false
 
-air_q_url <-
+air_q_url_2022 <-
   'https://dati.comune.milano.it/dataset/f6d5e0c0-3cef-4a63-b038-6684c8dca88d/resource/e1cc82ec-97bb-463c-a3fb-b61be60f0956/download/qaria_datoariagiornostazione_2022-11-22.csv'
 
+air_q_url_2023 <-
+  'https://dati.comune.milano.it/dataset/405ae1cd-0687-4449-baf2-6c9d993ed176/resource/d81b5f7d-20b8-4e3e-95cf-fbe3459dc1d2/download/qaria_datoariagiornostazione_2023-01-14.csv'
+
+air_q_2022 <- 
+  air_q_url_2022 %>% 
+  readr::read_delim(delim = ';')
+
+air_q_2023 <- 
+  air_q_url_2023 %>% 
+  readr::read_delim(delim = ';')
+
+
 air_q <- 
-  air_q_url %>% 
-  readr::read_delim(delim = ';') %>% 
+  bind_rows(
+    air_q_2022,
+    air_q_2023,
+  )%>% 
   janitor::clean_names() %>% 
   rename(date = data) %>% 
   mutate(date = date %>% as_date()) %>% 
