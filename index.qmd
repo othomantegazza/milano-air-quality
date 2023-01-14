@@ -117,7 +117,7 @@ set_girafe_defaults(
 # from https://environment.ec.europa.eu/topics/air/air-quality/eu-air-quality-standards_en
 pollutants <- 
   tribble(~inquinante, ~pollutant_name, ~eu_limits,
-          'C6H6', 'Polycyclic Aromatic Hydrocarbons', 1e-3,
+          'C6H6', 'Cyclic Aromatic Hydrocarbons', 1e-3,
           'CO', 'Carbon Monoxide', 1e4,
           'NO2', 'Nitrogen Dioxide', 40,
           'O3', 'Ozone', 120,
@@ -191,11 +191,18 @@ plot_heat(air_q_scaled)
 
 ::: {.panel-tabset}
 
-### Ozone
+### Cyclic Aromatics
 
-```{r ozone}
+```{r aro}
 #| panel: fill
-air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
+air_q %>% filter(pollutant_name == 'Cyclic Aromatic Hydrocarbons') %>% pull(plots) %>% .[[1]]
+```
+
+### Carbon Monoxide
+
+```{r co}
+#| panel: fill
+air_q %>% filter(pollutant_name == 'Carbon Monoxide') %>% pull(plots) %>% .[[1]]
 ```
 
 ### Nitrogen Dioxide
@@ -205,11 +212,11 @@ air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
 air_q %>% filter(pollutant_name == 'Nitrogen Dioxide') %>% pull(plots) %>% .[[1]]
 ```
 
-### Polycyclic Aromatics
+### Ozone
 
-```{r aro}
+```{r ozone}
 #| panel: fill
-air_q %>% filter(pollutant_name == 'Polycyclic Aromatic Hydrocarbons') %>% pull(plots) %>% .[[1]]
+air_q %>% filter(pollutant_name == 'Ozone') %>% pull(plots) %>% .[[1]]
 ```
 
 ### PM10
@@ -231,13 +238,6 @@ air_q %>% filter(pollutant_name == 'Fine Particles') %>% pull(plots) %>% .[[1]]
 ```{r so}
 #| panel: fill
 air_q %>% filter(pollutant_name == 'Sulphur Dioxide') %>% pull(plots) %>% .[[1]]
-```
-
-### Carbon Monoxide
-
-```{r co}
-#| panel: fill
-air_q %>% filter(pollutant_name == 'Carbon Monoxide') %>% pull(plots) %>% .[[1]]
 ```
 
 :::
@@ -280,4 +280,4 @@ This dashboard was made and is maintained by [Otho Mantegazza](https://www.linke
 
 :::::
 
-:::::
+::::::
